@@ -773,7 +773,7 @@ QPushButton:hover {
            <widget class="QPushButton" name="btnSimpan">
             <property name="minimumSize">
              <size>
-              <width>10</width>
+              <width>44</width>
               <height>0</height>
              </size>
             </property>
@@ -792,7 +792,7 @@ QPushButton:hover {
            <widget class="QPushButton" name="btnClear">
             <property name="minimumSize">
              <size>
-              <width>75</width>
+              <width>44</width>
               <height>0</height>
              </size>
             </property>
@@ -805,7 +805,7 @@ QPushButton:hover {
            <widget class="QPushButton" name="btnHapus">
             <property name="minimumSize">
              <size>
-              <width>75</width>
+              <width>44</width>
               <height>0</height>
              </size>
             </property>
@@ -838,7 +838,7 @@ QPushButton:hover {
              <number>10</number>
             </property>
             <property name="columnCount">
-             <number>9</number>
+             <number>8</number>
             </property>
             <row/>
             <row/>
@@ -850,7 +850,6 @@ QPushButton:hover {
             <row/>
             <row/>
             <row/>
-            <column/>
             <column/>
             <column/>
             <column/>

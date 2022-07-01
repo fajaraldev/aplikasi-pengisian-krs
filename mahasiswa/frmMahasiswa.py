@@ -18,7 +18,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Event Setup
         self.btnCari.clicked.connect(self.search_data)
-        # self.btnCariProdi.clicked.connect(self.search_data_prodi)
+        self.btnCariProdi.clicked.connect(self.search_data_prodi)
         self.btnSimpan.clicked.connect(self.save_data)
         self.txtNim.returnPressed.connect(self.search_data)
         self.btnClear.clicked.connect(self.clear_entry)
@@ -34,7 +34,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             # Get all
             result = mhs.getAllData()
 
-            self.gridMahasiswa.setHorizontalHeaderLabels(['ID', 'NIM', 'Nama', 'Prodi', 'JK', 'TTL', 'Alamat', 'Email', 'Telepon'])
+            self.gridMahasiswa.setHorizontalHeaderLabels(['NIM', 'Nama', 'Prodi', 'JK', 'TTL', 'Alamat', 'Email', 'Telepon'])
             self.gridMahasiswa.setRowCount(0)
 
 
@@ -48,6 +48,22 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except mc.Error as e:
             self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
 
+    def search_data_prodi(self):
+        try:
+            prd = Prodi()
+            kode_prodi=self.txtKodeProdi.text()
+            # search process
+            result = prd.getByKodeProdi(kode_prodi)
+            a = prd.affected
+            if(a>0):
+                self.txtProdi.setText(prd.prodi.strip())
+            else:
+                self.messagebox("INFO", "Data Prodi tidak ditemukan")
+
+        except mc.Error as e:
+            self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
+
+    # search data for mahasiswa
     def search_data(self):
         try:
             mhs = Mahasiswa()
@@ -69,6 +85,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except mc.Error as e:
             self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
 
+    # save data for mahasiswa
     def save_data(self, MainWindow):
         try:
             mhs = Mahasiswa()
@@ -121,6 +138,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except mc.Error as e:
             self.messagebox("ERROR", str(e))
 
+    # delete data for mahasiswa
     def delete_data(self, MainWindow):
         try:
             mhs = Mahasiswa()
