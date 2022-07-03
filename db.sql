@@ -18,9 +18,9 @@ CREATE TABLE prodi (
 CREATE TABLE matakuliah (
   kode_matakuliah VARCHAR(5) PRIMARY KEY NOT NULL,
   matakuliah VARCHAR(30) NOT NULL,
-  sks CHAR(1) NOT NULL,
+  sks SMALLINT(1) NOT NULL,
   prodi VARCHAR(5) NOT NULL REFERENCES prodi(kode_prodi),
-  semester CHAR(1) NOT NULL
+  semester SMALLINT(1) NOT NULL
 );
 
 CREATE TABLE mahasiswa (
