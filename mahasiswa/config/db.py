@@ -68,9 +68,22 @@ class DBConnection:
         self.result = self.cursor.fetchall()
         return self.result
 
+    def findAllWithConditional(self, sql, val):
+        self.connect()
+        self.result = self.cursor.execute(sql, val)
+        self.result = self.cursor.fetchall()
+        return self.result
+
     def insert(self, sql):
         self.connect()
         self.cursor.execute(sql)
+        self.conn.commit()
+        self.affected = self.cursor.rowcount
+        return self.affected
+
+    def insertWithConditional(self, sql, val):
+        self.connect()
+        self.cursor.execute(sql, val)
         self.conn.commit()
         self.affected = self.cursor.rowcount
         return self.affected

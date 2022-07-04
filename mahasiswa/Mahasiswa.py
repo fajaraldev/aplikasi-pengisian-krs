@@ -83,15 +83,15 @@ class Mahasiswa:
     def simpan(self):
         self.conn = mydb()
         val = (self.__nim,self.__nama,self.__prodi,self.__jk,self.__ttl,self.__alamat,self.__email,self.__telepon)
-        sql="INSERT INTO mahasiswa (nim, nama, prodi, jk, ttl, alamat, email, telepon) VALUES " + str(val)
-        self.affected = self.conn.insert(sql)
+        sql="INSERT INTO mahasiswa (nim, nama, prodi, jk, ttl, alamat, email, telepon) VALUES (%s,%s,(SELECT p.kode_prodi FROM prodi AS p WHERE %s=p.prodi),%s,%s,%s,%s,%s)"
+        self.affected = self.conn.insertWithConditional(sql,val)
         self.conn.disconnect
         return self.affected
 
     def updateByNim(self, nim):
         self.conn = mydb()
         val = (self.__nama,self.__prodi,self.__jk,self.__ttl,self.__alamat,self.__email,self.__telepon, nim)
-        sql="UPDATE mahasiswa SET nama=%s, prodi=%s, jk=%s, ttl=%s, alamat=%s, email=%s, telepon=%s WHERE nim=%s"
+        sql="UPDATE mahasiswa SET nama=%s, prodi=(SELECT p.kode_prodi FROM prodi AS p WHERE %s=p.prodi), jk=%s, ttl=%s, alamat=%s, email=%s, telepon=%s WHERE nim=%s"
         self.affected = self.conn.update(sql, val)
         self.conn.disconnect
         return self.affected
@@ -105,7 +105,7 @@ class Mahasiswa:
 
     def getByNim(self, nim):
         self.conn = mydb()
-        sql="SELECT * FROM mahasiswa WHERE nim='" + str(nim) + "'"
+        sql="SELECT m.nim,m.nama,p.prodi,m.jk,m.ttl,m.alamat,m.email,m.telepon FROM mahasiswa AS m, prodi AS p WHERE nim='" + str(nim) + "' AND m.prodi=p.kode_prodi"
         self.result = self.conn.findOne(sql)
         if(self.result!=None):
             self.__nim = self.result[0]
@@ -132,6 +132,6 @@ class Mahasiswa:
 
     def getAllData(self):
         self.conn = mydb()
-        sql="SELECT * FROM mahasiswa limit 100"
+        sql="SELECT m.nim,m.nama,p.prodi,m.jk,m.ttl,m.alamat,m.email,m.telepon FROM mahasiswa AS m, prodi AS p WHERE m.prodi=p.kode_prodi limit 100"
         self.result = self.conn.findAll(sql)
         return self.result

@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QMessageBox
 from Mahasiswa import Mahasiswa
 from Prodi import Prodi
+from GlobalVariable import prodi
 
 qtcreator_file  = "mahasiswa.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtcreator_file)
@@ -18,7 +19,6 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Event Setup
         self.btnCari.clicked.connect(self.search_data)
-        self.btnCariProdi.clicked.connect(self.search_data_prodi)
         self.btnSimpan.clicked.connect(self.save_data)
         self.txtNim.returnPressed.connect(self.search_data)
         self.btnClear.clicked.connect(self.clear_entry)
@@ -26,6 +26,10 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.edit_mode=""
         self.btnHapus.setEnabled(False)
         self.btnHapus.setStyleSheet("color:black;background-color : grey")
+
+        # set data to cboProdi form
+        for x in prodi:
+          self.cboProdi.addItem(x[1], x[0])
 
     def select_data(self):
         try:
@@ -44,21 +48,6 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 for column_number, data in enumerate(row_data):
                     #print(column_number)
                     self.gridMahasiswa.setItem(row_number, column_number, QTableWidgetItem(str(data)))
-
-        except mc.Error as e:
-            self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
-
-    def search_data_prodi(self):
-        try:
-            prd = Prodi()
-            kode_prodi=self.txtKodeProdi.text()
-            # search process
-            result = prd.getByKodeProdi(kode_prodi)
-            a = prd.affected
-            if(a>0):
-                self.txtProdi.setText(prd.prodi.strip())
-            else:
-                self.messagebox("INFO", "Data Prodi tidak ditemukan")
 
         except mc.Error as e:
             self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
@@ -91,7 +80,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             mhs = Mahasiswa()
             nim=self.txtNim.text()
             nama=self.txtNama.text()
-            prodi=self.txtKodeProdi.text()
+            prodi=self.cboProdi.currentText()
             jk=self.cboJk.currentText()
             ttl=self.txtTtl.text()
             alamat=self.txtAlamat.text()
@@ -163,7 +152,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def TampilData(self,result):
         self.txtNim.setText(result[0])
         self.txtNama.setText(result[1])
-        self.txtKodeProdi.setText(result[2])
+        self.cboProdi.setCurrentText(result[2])
         self.cboJk.setCurrentText(result[3])
         self.txtTtl.setText(result[4])
         self.txtAlamat.setText(result[5])
@@ -178,7 +167,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def clear_entry(self, MainWindow):
         self.txtNim.setText("")
         self.txtNama.setText("")
-        self.txtKodeProdi.setText("")
+        self.cboProdi.setCurrentText("")
         self.cboJk.setCurrentText("")
         self.txtTtl.setText("")
         self.txtAlamat.setText("")
