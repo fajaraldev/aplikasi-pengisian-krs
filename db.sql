@@ -37,7 +37,7 @@ CREATE TABLE mahasiswa (
 CREATE TABLE krs (
   id INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   ajaran VARCHAR(10) NOT NULL,
-  semester CHAR(1) NOT NULL,
+  semester SMALLINT(1) NOT NULL,
   nim VARCHAR(10) NOT NULL REFERENCES mahasiswa(nim),
   prodi VARCHAR(5) NOT NULL REFERENCES prodi(kode_prodi),
   matakuliah VARCHAR(5) NOT NULL REFERENCES matakuliah(kode_matakuliah),
