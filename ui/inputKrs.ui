@@ -20,7 +20,11 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QScrollBar:vertical {
+   <string notr="true">QScrollArea{
+border:none;
+}
+
+QScrollBar:vertical {
 	background-color:#fefefe;
 	width:10px;
 }
@@ -120,8 +124,8 @@ QPushButton:hover {
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1011</width>
-         <height>1122</height>
+         <width>1013</width>
+         <height>1124</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -174,6 +178,18 @@ QPushButton:hover {
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>170</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
              </property>
              <property name="font">
               <font>
