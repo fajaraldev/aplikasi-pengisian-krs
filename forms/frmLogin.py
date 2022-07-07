@@ -3,6 +3,7 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QMessageBox
 from forms.MainWindow import MainWindow
 from classes.Users import Users as Login
+from classes.Users import userInfo
 
 qtcreator_file  = "ui/login.ui" # File Design Tampilan Dashboard
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtcreator_file)
@@ -20,7 +21,7 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         password = self.txtPassword.text()
         usr.validate(username,password)
 
-        if(usr.currentUser[0]==True): # Login berhasil
+        if(userInfo[0]==True): # Login berhasil
             self.close()
             dashboard.show()
             self.messagebox("Info","Login Berhasil")

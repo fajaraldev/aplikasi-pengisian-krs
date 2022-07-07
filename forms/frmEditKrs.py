@@ -9,19 +9,23 @@ from classes.Krs import Krs
 from classes.Users import userInfo
 from GlobalVariable import GlobalVariable
 
-qtcreator_file  = "ui/inputKrs.ui"
+qtcreator_file  = "ui/editKrs.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtcreator_file)
 
 
-class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
         # Event Setup
-        self.btnSimpan.clicked.connect(self.save_data)
+        self.btnCariKrs.clicked.connect(self.search_data)
+        self.btnUpdate.clicked.connect(self.update_data)
+        self.txtIdKrs.returnPressed.connect(self.search_data)
         self.btnClear.clicked.connect(self.clear_entry)
+        # self.btnHapus.clicked.connect(self.delete_data)
+        self.disableButton()
 
         # set data to cboMatakuliah form
         for x in g_var.matakuliah:
@@ -48,11 +52,31 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except mc.Error as e:
             self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
 
-    # save data for matakuliah
-    def save_data(self, MainWindow):
+    # search data for krs
+    def search_data(self):
         try:
             krs = Krs()
+            id=self.txtIdKrs.text()
 
+            # search process
+            result = krs.getByIdKrs(id)
+            a = krs.affected
+            if(a>0):
+                self.TampilData(result)
+            else:
+                self.messagebox("INFO", "Data tidak ditemukan")
+                self.disableButton()
+
+        except mc.Error as e:
+            self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
+
+    # save data for krs
+    def update_data(self, MainWindow):
+        try:
+            krs = Krs()
+            id=self.txtIdKrs.text()
+
+            # get value from ui
             ajaran=self.txtAjaran.text()
             semester=self.cboSemester.currentText()
             matakuliah=self.cboMatakuliah.currentText()
@@ -70,18 +94,27 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             krs.hari=hari
             krs.waktu=waktu
             krs.ruang=ruang
-            a = krs.simpan()
+            a = krs.updateByIdKrs(id)
             if(a>0):
-                self.messagebox("SUKSES", "Data Krs Tersimpan")
+                self.messagebox("SUKSES", "Data KRS Diperbarui")
             else:
-                self.messagebox("GAGAL", "Data Krs Gagal Tersimpan")
+                self.messagebox("GAGAL", "Data KRS Gagal Diperbarui")
 
             self.clear_entry(self) # Clear Entry Form
             self.select_data() # Reload Datagrid
 
-
         except mc.Error as e:
             self.messagebox("ERROR", str(e))
+
+    def TampilData(self,result):
+        self.txtIdKrs.setText(str(result[0]))
+        self.txtAjaran.setText(result[1])
+        self.cboSemester.setCurrentText(str(result[2]))
+        self.cboMatakuliah.setCurrentText(result[3])
+        self.cboHari.setCurrentText(result[4])
+        self.txtWaktu.setText(result[5])
+        self.txtRuang.setText(result[6])
+        self.enableButton()
 
     def clear_entry(self, MainWindow):
         self.txtAjaran.setText('')
@@ -91,6 +124,7 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.cboHari.setCurrentText('')
         self.txtWaktu.setText('')
         self.txtRuang.setText('')
+        self.disableButton()
 
     def messagebox(self, title, message):
         mess = QMessageBox()
@@ -99,12 +133,23 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         mess.setStandardButtons(QMessageBox.Ok)
         mess.exec_()
 
+    def enableButton(self):
+        self.btnUpdate.setEnabled(True)
+        self.btnUpdate.setStyleSheet("color:white;  background-color : blue")
+        self.btnHapus.setEnabled(True)
+        self.btnHapus.setStyleSheet("color:white; background-color : red")
+
+    def disableButton(self):
+        self.btnUpdate.setEnabled(False)
+        self.btnUpdate.setStyleSheet("color:black;background-color : grey")
+        self.btnHapus.setEnabled(False)
+        self.btnHapus.setStyleSheet("color:black;background-color : grey")
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     g_var = GlobalVariable()
     g_var.getAllMatakuliahByProdi("A01")
-    window = InputKrsWindow()
+    window = EditKrsWindow()
     window.show()
     window.select_data()
     sys.exit(app.exec_())
@@ -112,4 +157,4 @@ else:
     app = QtWidgets.QApplication(sys.argv)
     g_var = GlobalVariable()
     g_var.getAllMatakuliahByProdi("A01")
-    window = InputKrsWindow()
+    window = EditKrsWindow()

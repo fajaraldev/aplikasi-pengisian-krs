@@ -88,46 +88,66 @@ class Krs:
     def ruang(self, value):
         self.__ruang = value
 
+    def getUserNimAndProdi(self,username):
+        self.conn = mydb()
+        sql="SELECT nim,prodi FROM mahasiswa WHERE nim='" + str(username) + "'"
+        self.result = self.conn.findOne(sql)
+        if(self.result!=None):
+            self.__nim = self.result[0]
+            self.__prodi = self.result[1]
+            self.affected = self.conn.cursor.rowcount
+        else:
+            self.__nim = ''
+            self.__prodi = ''
+            self.affected = 0
+        self.conn.disconnect
+        return self.result
+
     def simpan(self):
         self.conn = mydb()
         val = (self.__ajaran,self.__semester,self.__nim,self.__prodi,self.__matakuliah,self.__hari,self.__waktu,self.__ruang)
-        sql="INSERT INTO krs (ajaran,semester,nim,prodi,matakuliah,hari,waktu,ruang) VALUES " + str(val)
-        self.affected = self.conn.insert(sql)
+        sql="INSERT INTO krs (ajaran,semester,nim,prodi,matakuliah,hari,waktu,ruang) VALUES (%s,%s,%s,%s,(SELECT m.kode_matakuliah FROM matakuliah AS m WHERE m.matakuliah=%s),%s,%s,%s)"
+        self.affected = self.conn.insertWithConditional(sql, val)
         self.conn.disconnect
         return self.affected
 
-    def updateByKodeajaran(self, id):
+    def updateByIdKrs(self, id):
         self.conn = mydb()
-        val = (self.__ajaran,self.__semester,self.__nim,self.__prodi, id)
-        sql="UPDATE krs SET ajaran=%s, semester=%s, nim=(SELECT p.kode_nim FROM nim AS p WHERE %s=p.nim), prodi=%s WHERE id=%s"
+        val = (self.__ajaran,self.__semester,self.__nim,self.__prodi,self.__matakuliah,self.__hari,self.__waktu,self.__ruang, id)
+        sql="UPDATE krs SET ajaran=%s, semester=%s, nim=%s, prodi=%s, matakuliah=(SELECT m.kode_matakuliah FROM matakuliah AS m WHERE m.matakuliah=%s), hari=%s, waktu=%s, ruang=%s WHERE id=%s"
         self.affected = self.conn.update(sql, val)
         self.conn.disconnect
         return self.affected
 
-    def deleteByKodeajaran(self, id):
+    def deleteByIdKrs(self, id):
         self.conn = mydb()
         sql="DELETE FROM krs WHERE id='" + str(id) + "'"
         self.affected = self.conn.delete(sql)
         self.conn.disconnect
         return self.affected
 
-    def getByKodeajaran(self, id):
+    def getByIdKrs(self, id):
         self.conn = mydb()
-        sql="SELECT m.id, m.ajaran, m.semester, p.nim, m.prodi FROM krs AS m, nim AS p WHERE id='" + str(id) + "'  AND m.nim=p.kode_nim"
+        sql="SELECT k.id,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE id='" + str(id) + "'  AND k.matakuliah=m.kode_matakuliah"
         self.result = self.conn.findOne(sql)
         if(self.result!=None):
             self.__id = self.result[0]
             self.__ajaran = self.result[1]
             self.__semester = self.result[2]
-            self.__nim = self.result[3]
-            self.__prodi = self.result[4]
+            self.__matakuliah = self.result[3]
+            self.__hari = self.result[4]
+            self.__waktu = self.result[5]
+            self.__ruang = self.result[6]
             self.affected = self.conn.cursor.rowcount
         else:
+
             self.__id = ''
             self.__ajaran = ''
             self.__semester = ''
-            self.__nim = ''
-            self.__prodi = ''
+            self.__matakuliah = ''
+            self.__hari = ''
+            self.__waktu = ''
+            self.__ruang = ''
             self.affected = 0
         self.conn.disconnect
         return self.result
@@ -137,17 +157,3 @@ class Krs:
         sql="SELECT k.id,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE k.matakuliah=m.kode_matakuliah"
         self.result = self.conn.findAll(sql)
         return self.result
-
-
-krs = Krs()
-
-krs.ajaran="2021/2022"
-krs.semester =4
-krs.nim="2001"
-krs.prodi="A01"
-krs.matakuliah="A04"
-krs.hari="Senin"
-krs.waktu="08:00"
-krs.ruang="A01"
-
-# krs.simpan()

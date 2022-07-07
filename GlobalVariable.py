@@ -31,11 +31,6 @@ class GlobalVariable:
       for x in self.result:
         self.matakuliah.append(x)
 
-  def setCurrentUser(self,username,password):
-      val = (prodi,semester)
-      self.conn = mydb()
-      sql="SELECT u.username,u.password,r.role_name FROM users AS u, roles AS r WHERE username=%s AND password=%s AND u.role_id=r.role_id"
-
 # prodi="A01"
 # semester=4
 # # mk.getAllMatakuliahByProdi(prodi,semester)

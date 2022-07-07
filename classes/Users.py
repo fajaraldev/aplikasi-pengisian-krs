@@ -1,8 +1,10 @@
 import hashlib
 from config.db import DBConnection as mydb
+
+userInfo=[]
+
 class Users:
     def __init__(self):
-        self.currentUser=[]
 
         self.__user_id=None
         self.__username=None
@@ -50,10 +52,10 @@ class Users:
     def loginvalid(self, value):
         self.__loginvalid = value
 
-    def set_current_user(self,loginvalid,username,rolename):
+    def setUserInfo(self,loginvalid,username,rolename):
         val=(loginvalid,username,rolename)
         for x in val:
-          self.currentUser.append(x)
+          userInfo.append(x)
 
     def validate(self, username, password):
         # a=str(username)
@@ -83,4 +85,4 @@ class Users:
             self.__loginvalid = False
         self.conn.disconnect
 
-        self.set_current_user(self.__loginvalid,self.__username,self.__role_name)
+        self.setUserInfo(self.__loginvalid,self.__username,self.__role_name)
