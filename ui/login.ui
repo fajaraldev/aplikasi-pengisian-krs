@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
+    <width>492</width>
     <height>280</height>
    </rect>
   </property>
@@ -51,11 +51,6 @@ QPushButton {
 QPushButton:hover {
   border-color: #4285f4;
   outline: none;
-}
-
-#btnSimpan{
-	color: rgb(255, 255, 255);
-	background-color: rgb(0, 0, 255);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -95,7 +90,7 @@ QPushButton:hover {
           </font>
          </property>
          <property name="text">
-          <string>Form Login</string>
+          <string>FORM LOGIN</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -196,7 +191,7 @@ QPushButton:hover {
             </property>
             <property name="maximumSize">
              <size>
-              <width>500</width>
+              <width>300</width>
               <height>16777215</height>
              </size>
             </property>
@@ -247,7 +242,7 @@ QPushButton:hover {
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="QPushButton" name="btnSimpan">
+           <widget class="QPushButton" name="btnSubmit">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -256,7 +251,7 @@ QPushButton:hover {
             </property>
             <property name="maximumSize">
              <size>
-              <width>75</width>
+              <width>100</width>
               <height>16777215</height>
              </size>
             </property>
@@ -266,7 +261,7 @@ QPushButton:hover {
              </font>
             </property>
             <property name="text">
-             <string>Login</string>
+             <string>Submit</string>
             </property>
            </widget>
           </item>

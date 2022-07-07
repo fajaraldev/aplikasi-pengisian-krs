@@ -1,3 +1,4 @@
+import sys
 from PyQt5.QtCore import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QKeySequence as QKSec
@@ -25,6 +26,7 @@ class MainWindow(QMainWindow):
         self._zoom_action = self.add_action("Search", "zoom", "Search", True, self.on_zoom)
         self._about_action = self.add_action("About", "about", "About QupyRibbon", True, self.on_about)
         self._license_action = self.add_action("License", "license", "Licence for this software", True, self.on_license)
+        self._exit_action = self.add_action("Exit", "exit", "Exit", True, self.app_exit)
 
         # Ribbon
         self._ribbon = RibbonWidget(self)
@@ -54,6 +56,7 @@ class MainWindow(QMainWindow):
 
         view_panel = home_tab.add_ribbon_pane("View")
         view_panel.add_ribbon_widget(RibbonButton(self, self._zoom_action, True))
+        view_panel.add_ribbon_widget(RibbonButton(self, self._exit_action, True))
         home_tab.add_spacer()
 
         about_tab = self._ribbon.add_ribbon_tab("About")
@@ -91,3 +94,6 @@ class MainWindow(QMainWindow):
         text = "PostgreSQL CRUD App\n"
         text += "Copyright © 2022 Freddy Wicaksono"
         QMessageBox().about(self, "About App", text)
+
+    def app_exit(self):
+      sys.exit()
