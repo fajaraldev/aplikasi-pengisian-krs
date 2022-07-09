@@ -403,7 +403,7 @@ QPushButton:hover {
                   </widget>
                  </item>
                  <item alignment="Qt::AlignLeft">
-                  <widget class="QPushButton" name="btnCariMatakuliah">
+                  <widget class="QPushButton" name="btnCariMatakuliahBySemester">
                    <property name="minimumSize">
                     <size>
                      <width>44</width>

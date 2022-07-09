@@ -12,7 +12,6 @@ from GlobalVariable import GlobalVariable
 qtcreator_file  = "ui/editKrs.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtcreator_file)
 
-
 class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
@@ -21,15 +20,12 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Event Setup
         self.btnCariKrs.clicked.connect(self.search_data)
+        self.btnCariMatakuliBySemesterah.clicked.connect(self.search_matakuliah)
         self.btnUpdate.clicked.connect(self.update_data)
         self.txtIdKrs.returnPressed.connect(self.search_data)
         self.btnClear.clicked.connect(self.clear_entry)
         # self.btnHapus.clicked.connect(self.delete_data)
         self.disableButton()
-
-        # set data to cboMatakuliah form
-        for x in g_var.matakuliah:
-          self.cboMatakuliah.addItem(x[1], x[0])
 
     def select_data(self):
         try:
@@ -50,6 +46,24 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.gridKrs.setItem(row_number, column_number, QTableWidgetItem(str(data)))
 
         except mc.Error as e:
+            self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
+
+    # search data matakuliah
+    def search_matakuliah(self):
+        try:
+            username = userInfo[1]
+            semester = self.cboSemester.currentText()
+            g_var.getAllMatakuliahByProdiAndSemester(username, semester)
+            self.cboMatakuliah.clear() # reset data cbo matakuliah
+            a = g_var.affected
+            if(a>0):
+                # set data to cboProdi form
+                for x in g_var.matakuliah:
+                  self.cboMatakuliah.addItem(x[1], x[0])
+            else:
+                self.messagebox("INFO", "Data Matakuliah tidak tersedia!")
+
+        except Exception as e:
             self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
 
     # search data for krs
@@ -148,7 +162,6 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     g_var = GlobalVariable()
-    g_var.getAllMatakuliahByProdi("A01")
     window = EditKrsWindow()
     window.show()
     window.select_data()
@@ -156,5 +169,4 @@ if __name__ == "__main__":
 else:
     app = QtWidgets.QApplication(sys.argv)
     g_var = GlobalVariable()
-    g_var.getAllMatakuliahByProdi("A01")
     window = EditKrsWindow()

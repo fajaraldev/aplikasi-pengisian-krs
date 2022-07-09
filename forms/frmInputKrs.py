@@ -21,11 +21,8 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Event Setup
         self.btnSimpan.clicked.connect(self.save_data)
+        self.btnCariMatakuliahBySemester.clicked.connect(self.search_matakuliah)
         self.btnClear.clicked.connect(self.clear_entry)
-
-        # set data to cboMatakuliah form
-        for x in g_var.matakuliah:
-          self.cboMatakuliah.addItem(x[1], x[0])
 
     def select_data(self):
         try:
@@ -46,6 +43,24 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.gridKrs.setItem(row_number, column_number, QTableWidgetItem(str(data)))
 
         except mc.Error as e:
+            self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
+
+    # search data matakuliah
+    def search_matakuliah(self):
+        try:
+            username = userInfo[1]
+            semester = self.cboSemester.currentText()
+            g_var.getAllMatakuliahByProdiAndSemester(username, semester)
+            self.cboMatakuliah.clear() # reset data cbo matakuliah
+            a = g_var.affected
+            if(a>0):
+                # set data to cboProdi form
+                for x in g_var.matakuliah:
+                  self.cboMatakuliah.addItem(x[1], x[0])
+            else:
+                self.messagebox("INFO", "Data Matakuliah tidak tersedia!")
+
+        except Exception as e:
             self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
 
     # save data for matakuliah
@@ -103,7 +118,6 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     g_var = GlobalVariable()
-    g_var.getAllMatakuliahByProdi("A01")
     window = InputKrsWindow()
     window.show()
     window.select_data()
@@ -111,5 +125,4 @@ if __name__ == "__main__":
 else:
     app = QtWidgets.QApplication(sys.argv)
     g_var = GlobalVariable()
-    g_var.getAllMatakuliahByProdi("A01")
     window = InputKrsWindow()

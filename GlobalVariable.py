@@ -5,6 +5,8 @@ class GlobalVariable:
       self.prodi=[]
       self.matakuliah=[]
 
+      self.__prodi = None
+
       self.conn = None
       self.affected = None
       self.result = None
@@ -23,13 +25,20 @@ class GlobalVariable:
       for x in self.result:
         self.matakuliah.append(x)
 
-  def getAllMatakuliahByProdiAndSemester(self,prodi,semester):
+  def getAllMatakuliahByProdiAndSemester(self,username,semester):
       self.conn = mydb()
-      val = (prodi,semester)
-      sql="SELECT * FROM matakuliah WHERE prodi=%s AND semester=%s"
-      self.result = self.conn.findAllWithConditional(sql,val)
-      for x in self.result:
-        self.matakuliah.append(x)
+      sql="SELECT m.kode_matakuliah,m.matakuliah,m.sks,m.prodi,m.semester FROM matakuliah AS m WHERE m.prodi=(SELECT prodi FROM mahasiswa WHERE nim='"+ str(username) +"') AND m.semester='" + str(semester) + "'"
+      self.result = self.conn.findAll(sql)
+      if(self.result!=None):
+        self.matakuliah.clear() # reset array matakuliah
+        for x in self.result:
+          self.matakuliah.append(x)
+        self.affected = self.conn.cursor.rowcount
+      else:
+          self.matakuliah.clear() # reset array matakuliah
+          self.affected = 0
+      self.conn.disconnect
+      return self.result
 
 # prodi="A01"
 # semester=4
