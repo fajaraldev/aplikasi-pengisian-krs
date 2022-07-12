@@ -82,9 +82,10 @@ class Mahasiswa:
 
     def simpan(self):
         self.conn = mydb()
-        val = (self.__nim,self.__nama,self.__prodi,self.__jk,self.__ttl,self.__alamat,self.__email,self.__telepon)
-        sql="INSERT INTO mahasiswa (nim, nama, prodi, jk, ttl, alamat, email, telepon) VALUES (%s,%s,(SELECT p.kode_prodi FROM prodi AS p WHERE %s=p.prodi),%s,%s,%s,%s,%s)"
-        self.affected = self.conn.insertWithConditional(sql,val)
+        # values for table mahasiswa and users, where username and password == nim
+        sql_mahasiswa="INSERT INTO mahasiswa (nim, nama, prodi, jk, ttl, alamat, email, telepon) VALUES ('"+str(self.__nim)+"','"+str(self.__nama)+"',(SELECT p.kode_prodi FROM prodi AS p WHERE p.prodi='"+str(self.__prodi)+"'),'"+str(self.__jk)+"','"+str(self.__ttl)+"','"+str(self.__alamat)+"','"+str(self.__email)+"','"+str(self.__telepon)+"');"
+        sql_users="INSERT INTO users (username,password) VALUES ('"+str(self.__nim)+"','"+str(self.__nim)+"');"
+        self.affected = self.conn.insertWithMultipleTable(sql_mahasiswa, sql_users)
         self.conn.disconnect
         return self.affected
 

@@ -76,7 +76,7 @@ class DBConnection:
 
     def insert(self, sql):
         self.connect()
-        self.cursor.execute(sql)
+        self.cursor.execute(sql, multi=True)
         self.conn.commit()
         self.affected = self.cursor.rowcount
         return self.affected
@@ -84,6 +84,14 @@ class DBConnection:
     def insertWithConditional(self, sql, val):
         self.connect()
         self.cursor.execute(sql, val)
+        self.conn.commit()
+        self.affected = self.cursor.rowcount
+        return self.affected
+
+    def insertWithMultipleTable(self, sql_mahasiswa, sql_users):
+        self.connect()
+        self.cursor.execute(sql_mahasiswa)
+        self.cursor.execute(sql_users)
         self.conn.commit()
         self.affected = self.cursor.rowcount
         return self.affected

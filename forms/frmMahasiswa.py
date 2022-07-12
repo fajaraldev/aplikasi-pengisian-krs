@@ -97,6 +97,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 mhs.email=email
                 mhs.telepon=telepon
                 a = mhs.simpan()
+                print(a)
                 if(a>0):
                     self.messagebox("SUKSES", "Data Mahasiswa Tersimpan")
                 else:
