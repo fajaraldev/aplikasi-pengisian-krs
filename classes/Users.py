@@ -73,11 +73,13 @@ class Users:
         sql="SELECT u.username,r.role_name FROM users AS u, roles AS r WHERE u.username='" + b + "' AND u.password='" + d + "' AND u.role_id=r.role_id"
         self.result = self.conn.findOne(sql)
         if(self.result!=None):
+            userInfo.clear() # reset userInfo
             self.__username = self.result[0]
             self.__role_name = self.result[1]
             self.affected = self.conn.cursor.rowcount
             self.__loginvalid = True
         else:
+            userInfo.clear() # reset userInfo
             self.__username = ''
             self.__password = ''
             self.__role_name = ''
