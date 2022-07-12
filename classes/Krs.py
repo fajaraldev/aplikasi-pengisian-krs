@@ -105,16 +105,16 @@ class Krs:
 
     def simpan(self):
         self.conn = mydb()
-        val = (self.__ajaran,self.__semester,self.__nim,self.__prodi,self.__matakuliah,self.__hari,self.__waktu,self.__ruang)
-        sql="INSERT INTO krs (ajaran,semester,nim,prodi,matakuliah,hari,waktu,ruang) VALUES (%s,%s,%s,%s,(SELECT m.kode_matakuliah FROM matakuliah AS m WHERE m.matakuliah=%s),%s,%s,%s)"
+        val = (self.__ajaran,self.__semester,self.__nim,self.__prodi,self.__matakuliah,self.__semester,self.__hari,self.__waktu,self.__ruang)
+        sql="INSERT INTO krs (ajaran,semester,nim,prodi,matakuliah,hari,waktu,ruang) VALUES (%s,%s,%s,%s,(SELECT m.kode_matakuliah FROM matakuliah AS m WHERE m.matakuliah=%s AND m.semester=%s),%s,%s,%s)"
         self.affected = self.conn.insertWithConditional(sql, val)
         self.conn.disconnect
         return self.affected
 
     def updateByIdKrs(self, id):
         self.conn = mydb()
-        val = (self.__ajaran,self.__semester,self.__nim,self.__prodi,self.__matakuliah,self.__hari,self.__waktu,self.__ruang, id)
-        sql="UPDATE krs SET ajaran=%s, semester=%s, nim=%s, prodi=%s, matakuliah=(SELECT m.kode_matakuliah FROM matakuliah AS m WHERE m.matakuliah=%s), hari=%s, waktu=%s, ruang=%s WHERE id=%s"
+        val = (self.__ajaran,self.__semester,self.__nim,self.__prodi,self.__matakuliah,self.__semester,self.__hari,self.__waktu,self.__ruang, id)
+        sql="UPDATE krs SET ajaran=%s, semester=%s, nim=%s, prodi=%s, matakuliah=(SELECT m.kode_matakuliah FROM matakuliah AS m WHERE m.matakuliah=%s AND m.semester=%s), hari=%s, waktu=%s, ruang=%s WHERE id=%s"
         self.affected = self.conn.update(sql, val)
         self.conn.disconnect
         return self.affected
@@ -155,5 +155,11 @@ class Krs:
     def getAllData(self):
         self.conn = mydb()
         sql="SELECT k.id,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE k.matakuliah=m.kode_matakuliah"
+        self.result = self.conn.findAll(sql)
+        return self.result
+
+    def getAllDataByUsername(self,username):
+        self.conn = mydb()
+        sql="SELECT k.id,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE k.matakuliah=m.kode_matakuliah AND k.nim='" +str(username)+ "'"
         self.result = self.conn.findAll(sql)
         return self.result

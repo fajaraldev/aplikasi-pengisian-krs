@@ -23,13 +23,14 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnSimpan.clicked.connect(self.save_data)
         self.btnCariMatakuliahBySemester.clicked.connect(self.search_matakuliah)
         self.btnClear.clicked.connect(self.clear_entry)
+        self.btnShowAllData.clicked.connect(self.select_data)
 
     def select_data(self):
         try:
             krs = Krs()
 
             # Get all
-            result = krs.getAllData()
+            result = krs.getAllDataByUsername(userInfo[1])
 
             self.gridKrs.setHorizontalHeaderLabels(['Id', 'Tahun Ajaran','Semester','Matakuliah','Hari','Waktu','Ruang'])
             self.gridKrs.setRowCount(0)
@@ -87,9 +88,9 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             krs.ruang=ruang
             a = krs.simpan()
             if(a>0):
-                self.messagebox("SUKSES", "Data Krs Tersimpan")
+                self.messagebox("SUKSES", "Data KRS Tersimpan")
             else:
-                self.messagebox("GAGAL", "Data Krs Gagal Tersimpan")
+                self.messagebox("GAGAL", "Data KRS Gagal Tersimpan")
 
             self.clear_entry(self) # Clear Entry Form
             self.select_data() # Reload Datagrid
@@ -120,7 +121,6 @@ if __name__ == "__main__":
     g_var = GlobalVariable()
     window = InputKrsWindow()
     window.show()
-    window.select_data()
     sys.exit(app.exec_())
 else:
     app = QtWidgets.QApplication(sys.argv)

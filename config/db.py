@@ -76,7 +76,7 @@ class DBConnection:
 
     def insert(self, sql):
         self.connect()
-        self.cursor.execute(sql, multi=True)
+        self.cursor.execute(sql)
         self.conn.commit()
         self.affected = self.cursor.rowcount
         return self.affected

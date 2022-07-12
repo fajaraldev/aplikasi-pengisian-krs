@@ -66,14 +66,12 @@ def prodi_on(self):
 # input krs
 def input_krs_panel(self):
     input_krs_widget = InputKrsWindow()
-    input_krs_widget.select_data()
     self.centralwidget = input_krs_widget
     self.centralwidget.setObjectName("centralwidget")
     self.widget = QtWidgets.QWidget(self.centralwidget)
 
 def input_krs_on(self):
     input_krs_widget = InputKrsWindow()
-    input_krs_widget.select_data()
     self.centralwidget = input_krs_widget
     dock.setWidget(self.centralwidget)
     self.addDockWidget(Qt.LeftDockWidgetArea, dock)
@@ -82,14 +80,12 @@ def input_krs_on(self):
 # input krs
 def input_krs_panel(self):
     input_krs_widget = InputKrsWindow()
-    input_krs_widget.select_data()
     self.centralwidget = input_krs_widget
     self.centralwidget.setObjectName("centralwidget")
     self.widget = QtWidgets.QWidget(self.centralwidget)
 
 def input_krs_on(self):
     input_krs_widget = InputKrsWindow()
-    input_krs_widget.select_data()
     self.centralwidget = input_krs_widget
     dock.setWidget(self.centralwidget)
     self.addDockWidget(Qt.LeftDockWidgetArea, dock)
@@ -98,14 +94,12 @@ def input_krs_on(self):
 # edit krs
 def edit_krs_panel(self):
     edit_krs_widget = EditKrsWindow()
-    edit_krs_widget.select_data()
     self.centralwidget = edit_krs_widget
     self.centralwidget.setObjectName("centralwidget")
     self.widget = QtWidgets.QWidget(self.centralwidget)
 
 def edit_krs_on(self):
     edit_krs_widget = EditKrsWindow()
-    edit_krs_widget.select_data()
     self.centralwidget = edit_krs_widget
     dock.setWidget(self.centralwidget)
     self.addDockWidget(Qt.LeftDockWidgetArea, dock)

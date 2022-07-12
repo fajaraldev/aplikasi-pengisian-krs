@@ -24,6 +24,7 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnUpdate.clicked.connect(self.update_data)
         self.txtIdKrs.returnPressed.connect(self.search_data)
         self.btnClear.clicked.connect(self.clear_entry)
+        self.btnShowAllData.clicked.connect(self.select_data)
         # self.btnHapus.clicked.connect(self.delete_data)
         self.disableButton()
 
@@ -32,7 +33,7 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             krs = Krs()
 
             # Get all
-            result = krs.getAllData()
+            result = krs.getAllDataByUsername(userInfo[1])
 
             self.gridKrs.setHorizontalHeaderLabels(['Id', 'Tahun Ajaran','Semester','Matakuliah','Hari','Waktu','Ruang'])
             self.gridKrs.setRowCount(0)
@@ -164,7 +165,6 @@ if __name__ == "__main__":
     g_var = GlobalVariable()
     window = EditKrsWindow()
     window.show()
-    window.select_data()
     sys.exit(app.exec_())
 else:
     app = QtWidgets.QApplication(sys.argv)
