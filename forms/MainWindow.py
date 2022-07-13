@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
         pass
 
     def on_profile(self):
-        matakuliah_on(self)
+        profile_on(self)
 
     def on_matakuliah(self):
         matakuliah_on(self)
@@ -103,13 +103,22 @@ class MainWindow(QMainWindow):
     def on_zoom(self):
         pass
 
-    def on_license(self):
-        pass
-
     def on_about(self):
-        text = "PostgreSQL CRUD App\n"
+        text = "PostgreSQL CRUD | Aplikasi Input Data KRS\n"
         text += "Copyright © 2022 UMC"
         QMessageBox().about(self, "About App", text)
+
+    def on_license(self):
+        text = """
+Copyright 2022 UMC
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."""
+
+        QMessageBox().about(self, "License App", text)
 
     def on_logout(self):
         text = "PostgreSQL CRUD App\n"
