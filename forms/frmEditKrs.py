@@ -60,7 +60,7 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if(a>0):
                 # set data to cboProdi form
                 for x in g_var.matakuliah:
-                  self.cboMatakuliah.addItem(x[1], x[0])
+                  self.cboMatakuliah.addItem(x[1])
             else:
                 self.messagebox("INFO", "Data Matakuliah tidak tersedia!")
 
@@ -122,9 +122,12 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.messagebox("ERROR", str(e))
 
     def TampilData(self,result):
+        self.cboMatakuliah.clear() # reset data cbo matakuliah
+
         self.txtIdKrs.setText(str(result[0]))
         self.txtAjaran.setText(result[1])
         self.cboSemester.setCurrentText(str(result[2]))
+        self.cboMatakuliah.addItem(result[3])
         self.cboMatakuliah.setCurrentText(result[3])
         self.cboHari.setCurrentText(result[4])
         self.txtWaktu.setText(result[5])
@@ -132,10 +135,11 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.enableButton()
 
     def clear_entry(self, MainWindow):
+        self.txtIdKrs.setText('')
         self.txtAjaran.setText('')
         self.cboSemester.setCurrentText('')
+        self.cboMatakuliah.clear() # reset data cbo matakuliah
         self.cboMatakuliah.setCurrentText('')
-        self.cboSemester.setCurrentText('')
         self.cboHari.setCurrentText('')
         self.txtWaktu.setText('')
         self.txtRuang.setText('')
