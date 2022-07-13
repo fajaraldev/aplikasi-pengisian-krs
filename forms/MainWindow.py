@@ -21,11 +21,13 @@ class MainWindow(QMainWindow):
         self._matakuliah_action = self.add_action("Matakuliah", "ico_matakuliah", "Data Matakuliah", True, self.on_matakuliah)
         self._mahasiswa_action = self.add_action("Mahasiswa", "ico_mahasiswa", "Data Mahasiswa", True, self.on_mahasiswa)
         self._prodi_action = self.add_action("Prodi", "ico_prodi", "Data Prodi", True, self.on_prodi)
-        self._input_krs_action = self.add_action("Input KRS", "ico_krs", "Input Data KRS", True, self.on_input_krs)
-        self._edit_krs_action = self.add_action("Edit KRS", "ico_krs", "Edit Data KRS", True, self.on_edit_krs)
+        self._input_krs_action = self.add_action("Input KRS", "ico_krs", "Input KRS", True, self.on_input_krs)
+        self._edit_krs_action = self.add_action("Edit KRS", "ico_krs", "Edit KRS", True, self.on_edit_krs)
 
-        self._zoom_action = self.add_action("Search", "zoom", "Search", True, self.on_zoom)
-        self._about_action = self.add_action("About", "about", "About QupyRibbon", True, self.on_about)
+        self._profile_action = self.add_action("Profile", "profile", "Profile", True, self.on_profile)
+        self._logout_action = self.add_action("Logout", "logout", "Logout", True, self.on_logout)
+        self._zoom_action = self.add_action("Search", "search", "Search", True, self.on_zoom)
+        self._about_action = self.add_action("About", "about", "About", True, self.on_about)
         self._license_action = self.add_action("License", "license", "Licence for this software", True, self.on_license)
         self._exit_action = self.add_action("Exit", "exit", "Exit", True, self.app_exit)
 
@@ -46,24 +48,31 @@ class MainWindow(QMainWindow):
 
     def init_ribbon(self):
         home_tab = self._ribbon.add_ribbon_tab("Home")
+
         file_pane = home_tab.add_ribbon_pane("File")
         file_pane.add_ribbon_widget(RibbonButton(self, self._mahasiswa_action, True))
         file_pane.add_ribbon_widget(RibbonButton(self, self._matakuliah_action, True))
+        file_pane.add_ribbon_widget(RibbonButton(self, self._prodi_action, True))
+        file_pane.add_ribbon_widget(RibbonButton(self, self._input_krs_action, True))
 
         edit_panel = home_tab.add_ribbon_pane("Edit")
-        edit_panel.add_ribbon_widget(RibbonButton(self, self._prodi_action, True))
-        edit_panel.add_ribbon_widget(RibbonButton(self, self._input_krs_action, True))
         edit_panel.add_ribbon_widget(RibbonButton(self, self._edit_krs_action, True))
 
         view_panel = home_tab.add_ribbon_pane("View")
         view_panel.add_ribbon_widget(RibbonButton(self, self._zoom_action, True))
-        view_panel.add_ribbon_widget(RibbonButton(self, self._exit_action, True))
         home_tab.add_spacer()
 
         about_tab = self._ribbon.add_ribbon_tab("About")
         info_panel = about_tab.add_ribbon_pane("Info")
         info_panel.add_ribbon_widget(RibbonButton(self, self._about_action, True))
         info_panel.add_ribbon_widget(RibbonButton(self, self._license_action, True))
+
+        settings_tab = self._ribbon.add_ribbon_tab("Settings")
+        info_panel = settings_tab.add_ribbon_pane("View")
+        info_panel.add_ribbon_widget(RibbonButton(self, self._profile_action, True))
+        info_panel.add_ribbon_widget(RibbonButton(self, self._logout_action, True))
+        etc_panel = settings_tab.add_ribbon_pane("Etc")
+        etc_panel.add_ribbon_widget(RibbonButton(self, self._exit_action, True))
 
        # -------------      Ribbon Button Functions      -----------------
 
@@ -72,6 +81,9 @@ class MainWindow(QMainWindow):
 
     def on_save_to_excel(self):
         pass
+
+    def on_profile(self):
+        matakuliah_on(self)
 
     def on_matakuliah(self):
         matakuliah_on(self)
@@ -95,6 +107,11 @@ class MainWindow(QMainWindow):
         pass
 
     def on_about(self):
+        text = "PostgreSQL CRUD App\n"
+        text += "Copyright © 2022 UMC"
+        QMessageBox().about(self, "About App", text)
+
+    def on_logout(self):
         text = "PostgreSQL CRUD App\n"
         text += "Copyright © 2022 Freddy Wicaksono"
         QMessageBox().about(self, "About App", text)

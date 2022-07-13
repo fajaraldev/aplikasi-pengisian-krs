@@ -1,6 +1,7 @@
 import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QMessageBox
+from GUI.Icons import get_icon
 from forms.MainWindow import MainWindow
 from classes.Users import Users as Login
 from classes.Users import userInfo
@@ -13,6 +14,8 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
+        self.setWindowTitle("Login")
+        self.setWindowIcon(get_icon("icon"))
         # Event Setup
         self.btnSubmit.clicked.connect(self.app_login) # ketika klik tombol submit
 
