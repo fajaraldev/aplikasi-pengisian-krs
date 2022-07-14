@@ -88,7 +88,7 @@ class DBConnection:
         self.affected = self.cursor.rowcount
         return self.affected
 
-    def insertWithMultipleTable(self, sql_mahasiswa, sql_users):
+    def insertMultipleTable(self, sql_mahasiswa, sql_users):
         self.connect()
         self.cursor.execute(sql_mahasiswa)
         self.cursor.execute(sql_users)
@@ -106,6 +106,14 @@ class DBConnection:
     def delete(self, sql):
         self.connect()
         self.cursor.execute(sql)
+        self.conn.commit()
+        self.affected = self.cursor.rowcount
+        return self.affected
+
+    def deleteMultipleTable(self, sql_mahasiswa,sql_users):
+        self.connect()
+        self.cursor.execute(sql_mahasiswa)
+        self.cursor.execute(sql_users)
         self.conn.commit()
         self.affected = self.cursor.rowcount
         return self.affected

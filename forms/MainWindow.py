@@ -21,6 +21,7 @@ class MainWindow(QMainWindow):
         self._matakuliah_action = self.add_action("Matakuliah", "ico_matakuliah", "Data Matakuliah", True, self.on_matakuliah)
         self._mahasiswa_action = self.add_action("Mahasiswa", "ico_mahasiswa", "Data Mahasiswa", True, self.on_mahasiswa)
         self._prodi_action = self.add_action("Prodi", "ico_prodi", "Data Prodi", True, self.on_prodi)
+        self._krs_action = self.add_action("KRS", "ico_krs", "KRS", True, self.on_krs)
         self._input_krs_action = self.add_action("Input KRS", "ico_krs", "Input KRS", True, self.on_input_krs)
         self._edit_krs_action = self.add_action("Edit KRS", "ico_krs", "Edit KRS", True, self.on_edit_krs)
 
@@ -57,6 +58,7 @@ class MainWindow(QMainWindow):
 
         edit_panel = home_tab.add_ribbon_pane("Edit")
         edit_panel.add_ribbon_widget(RibbonButton(self, self._edit_krs_action, True))
+        edit_panel.add_ribbon_widget(RibbonButton(self, self._krs_action, True))
 
         view_panel = home_tab.add_ribbon_pane("View")
         view_panel.add_ribbon_widget(RibbonButton(self, self._zoom_action, True))
@@ -93,6 +95,9 @@ class MainWindow(QMainWindow):
 
     def on_prodi(self):
         prodi_on(self)
+
+    def on_krs(self):
+        krs_on(self)
 
     def on_input_krs(self):
         input_krs_on(self)

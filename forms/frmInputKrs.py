@@ -51,7 +51,7 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         try:
             username = userInfo[1]
             semester = self.cboSemester.currentText()
-            g_var.getAllMatakuliahByProdiAndSemester(username, semester)
+            g_var.getAllMatakuliahByUsernameAndSemester(username, semester)
             self.cboMatakuliah.clear() # reset data cbo matakuliah
             a = g_var.affected
             if(a>0):
@@ -72,17 +72,15 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             ajaran=self.txtAjaran.text()
             semester=self.cboSemester.currentText()
             matakuliah=self.cboMatakuliah.currentText()
-            semester=self.cboSemester.currentText()
             hari=self.cboHari.currentText()
             waktu=self.txtWaktu.text()
             ruang=self.txtRuang.text()
 
             # set values to classes krs
-            krs.getUserNimAndProdi(userInfo[1]) #userInfo[1] = username
+            krs.getNimAndProdiByUsername(userInfo[1]) #userInfo[1] = username
             krs.ajaran=ajaran
             krs.semester=semester
             krs.matakuliah=matakuliah
-            krs.semester=semester
             krs.hari=hari
             krs.waktu=waktu
             krs.ruang=ruang

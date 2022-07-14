@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from forms.frmMahasiswa import MahasiswaWindow
 from forms.frmMatakuliah import MatakuliahWindow
 from forms.frmProdi import ProdiWindow
+from forms.frmKrs import KrsWindow
 from forms.frmInputKrs import InputKrsWindow
 from forms.frmEditKrs import EditKrsWindow
 from forms.frmProfile import ProfileWindow
@@ -13,7 +14,9 @@ def child_panels(self):
     matakuliah_panel(self)
     mahasiswa_panel(self)
     prodi_panel(self)
+    krs_panel(self)
     input_krs_panel(self)
+    edit_krs_panel(self)
     profile_panel(self)
 
 # Mahasiswa
@@ -64,16 +67,16 @@ def prodi_on(self):
     self.addDockWidget(Qt.LeftDockWidgetArea, dock)
     self.centralWidget()
 
-# input krs
-def input_krs_panel(self):
-    input_krs_widget = InputKrsWindow()
-    self.centralwidget = input_krs_widget
+# krs full version (admin)
+def krs_panel(self):
+    krs_widget = KrsWindow()
+    self.centralwidget = krs_widget
     self.centralwidget.setObjectName("centralwidget")
     self.widget = QtWidgets.QWidget(self.centralwidget)
 
-def input_krs_on(self):
-    input_krs_widget = InputKrsWindow()
-    self.centralwidget = input_krs_widget
+def krs_on(self):
+    krs_widget = KrsWindow()
+    self.centralwidget = krs_widget
     dock.setWidget(self.centralwidget)
     self.addDockWidget(Qt.LeftDockWidgetArea, dock)
     self.centralWidget()

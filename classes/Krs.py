@@ -88,7 +88,9 @@ class Krs:
     def ruang(self, value):
         self.__ruang = value
 
-    def getUserNimAndProdi(self,username):
+    # user
+    # def getUserNimAndProdi(self,username):
+    def getNimAndProdiByUsername(self,username):
         self.conn = mydb()
         sql="SELECT nim,prodi FROM mahasiswa WHERE nim='" + str(username) + "'"
         self.result = self.conn.findOne(sql)
@@ -98,6 +100,20 @@ class Krs:
             self.affected = self.conn.cursor.rowcount
         else:
             self.__nim = ''
+            self.__prodi = ''
+            self.affected = 0
+        self.conn.disconnect
+        return self.result
+
+    # admin
+    def getProdiByNim(self,nim):
+        self.conn = mydb()
+        sql="SELECT prodi FROM mahasiswa WHERE nim='" + str(nim) + "'"
+        self.result = self.conn.findOne(sql)
+        if(self.result!=None):
+            self.__prodi = self.result[0]
+            self.affected = self.conn.cursor.rowcount
+        else:
             self.__prodi = ''
             self.affected = 0
         self.conn.disconnect
@@ -126,9 +142,9 @@ class Krs:
         self.conn.disconnect
         return self.affected
 
-    def getByIdKrs(self, id):
+    def getKrsById(self, id):
         self.conn = mydb()
-        sql="SELECT k.id,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE id='" + str(id) + "'  AND k.matakuliah=m.kode_matakuliah"
+        sql="SELECT k.id,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE id='" + str(id) + "' AND k.matakuliah=m.kode_matakuliah"
         self.result = self.conn.findOne(sql)
         if(self.result!=None):
             self.__id = self.result[0]
@@ -140,7 +156,6 @@ class Krs:
             self.__ruang = self.result[6]
             self.affected = self.conn.cursor.rowcount
         else:
-
             self.__id = ''
             self.__ajaran = ''
             self.__semester = ''
@@ -152,14 +167,44 @@ class Krs:
         self.conn.disconnect
         return self.result
 
-    def getAllData(self):
-        self.conn = mydb()
-        sql="SELECT k.id,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE k.matakuliah=m.kode_matakuliah"
-        self.result = self.conn.findAll(sql)
-        return self.result
-
+    # user
     def getAllDataByUsername(self,username):
         self.conn = mydb()
         sql="SELECT k.id,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE k.matakuliah=m.kode_matakuliah AND k.nim='" +str(username)+ "'"
+        self.result = self.conn.findAll(sql)
+        return self.result
+
+    # admin
+    def getAllInfoKrsById(self, id):
+        self.conn = mydb()
+        sql="SELECT k.id,k.nim,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE id='" + str(id) + "' AND k.matakuliah=m.kode_matakuliah"
+        self.result = self.conn.findOne(sql)
+        if(self.result!=None):
+            self.__id = self.result[0]
+            self.__nim = self.result[1]
+            self.__ajaran = self.result[2]
+            self.__semester = self.result[3]
+            self.__matakuliah = self.result[4]
+            self.__hari = self.result[5]
+            self.__waktu = self.result[6]
+            self.__ruang = self.result[7]
+            self.affected = self.conn.cursor.rowcount
+        else:
+            self.__id = ''
+            self.__nim = ''
+            self.__ajaran = ''
+            self.__semester = ''
+            self.__matakuliah = ''
+            self.__hari = ''
+            self.__waktu = ''
+            self.__ruang = ''
+            self.affected = 0
+        self.conn.disconnect
+        return self.result
+
+    # admin
+    def getAllDataByNim(self,nim):
+        self.conn = mydb()
+        sql="SELECT k.id,k.nim,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE k.matakuliah=m.kode_matakuliah AND k.nim='" +str(nim)+ "'"
         self.result = self.conn.findAll(sql)
         return self.result

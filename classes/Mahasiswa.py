@@ -15,7 +15,6 @@ class Mahasiswa:
         self.affected = None
         self.result = None
 
-
     @property
     def nim(self):
         return self.__nim
@@ -85,7 +84,7 @@ class Mahasiswa:
         # values for table mahasiswa and users, where username and password == nim
         sql_mahasiswa="INSERT INTO mahasiswa (nim, nama, prodi, jk, ttl, alamat, email, telepon) VALUES ('"+str(self.__nim)+"','"+str(self.__nama)+"',(SELECT p.kode_prodi FROM prodi AS p WHERE p.prodi='"+str(self.__prodi)+"'),'"+str(self.__jk)+"','"+str(self.__ttl)+"','"+str(self.__alamat)+"','"+str(self.__email)+"','"+str(self.__telepon)+"');"
         sql_users="INSERT INTO users (username,password) VALUES ('"+str(self.__nim)+"','"+str(self.__nim)+"');"
-        self.affected = self.conn.insertWithMultipleTable(sql_mahasiswa, sql_users)
+        self.affected = self.conn.insertMultipleTable(sql_mahasiswa, sql_users)
         self.conn.disconnect
         return self.affected
 
@@ -99,8 +98,9 @@ class Mahasiswa:
 
     def deleteByNim(self, nim):
         self.conn = mydb()
-        sql="DELETE FROM mahasiswa WHERE nim='" + str(nim) + "'"
-        self.affected = self.conn.delete(sql)
+        sql_mahasiswa="DELETE FROM mahasiswa WHERE nim='" + str(nim) + "'"
+        sql_users="DELETE FROM users WHERE username='" + str(nim) + "'"
+        self.affected = self.conn.deleteMultipleTable(sql_mahasiswa,sql_users)
         self.conn.disconnect
         return self.affected
 

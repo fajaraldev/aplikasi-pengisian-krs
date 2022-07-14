@@ -33,7 +33,7 @@ QScrollBar::handle:vertical {
 	min-height: 30px;
 	border-radius: 4px;
 }
-QScrollBar::handle:vertical:hover{	
+QScrollBar::handle:vertical:hover{
 	background-color:#a1a6af;
 }
 
@@ -46,7 +46,7 @@ QScrollBar::handle:horizontal {
 	min-height: 30px;
 	border-radius: 4px;
 }
-QScrollBar::handle:horizontal:hover{	
+QScrollBar::handle:horizontal:hover{
 	background-color:#a1a6af;
 }
 
@@ -476,7 +476,7 @@ QPushButton:hover {
                   </widget>
                  </item>
                  <item alignment="Qt::AlignLeft">
-                  <widget class="QPushButton" name="btnCariMatakuliBySemesterah">
+                  <widget class="QPushButton" name="btnCariMatakuliBySemester">
                    <property name="minimumSize">
                     <size>
                      <width>44</width>
