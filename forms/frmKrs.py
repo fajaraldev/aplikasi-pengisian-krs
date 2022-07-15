@@ -26,7 +26,7 @@ class KrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnCariMatakuliBySemester.clicked.connect(self.search_matakuliah)
         self.btnSimpan.clicked.connect(self.save_data)
         self.btnClear.clicked.connect(self.clear_entry)
-        # self.btnHapus.clicked.connect(self.delete_data)
+        self.btnHapus.clicked.connect(self.delete_data)
 
         self.edit_mode=""
         self.disableButton()
@@ -37,7 +37,7 @@ class KrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             # Get all data krs
             nim=self.txtNimPencarian.text()
-            result = krs.getAllDataByNim(nim)
+            result = krs.getAllKrsByAdmin(nim)
 
             self.gridKrs.setHorizontalHeaderLabels(['Id','NIM', 'Tahun Ajaran','Semester','Matakuliah','Hari','Waktu','Ruang'])
             self.gridKrs.setRowCount(0)
@@ -77,7 +77,7 @@ class KrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             id=self.txtIdKrs.text()
 
             # search process
-            result = krs.getAllInfoKrsById(id)
+            result = krs.getKrsByAdmin(id)
             a = krs.affected
             if(a>0):
                 self.TampilData(result)
@@ -109,7 +109,6 @@ class KrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             if(self.edit_mode==False):
                 krs.getProdiByNim(nim)
-                krs.nim=nim
                 krs.ajaran=ajaran
                 krs.semester=semester
                 krs.matakuliah=matakuliah
@@ -127,7 +126,6 @@ class KrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             elif(self.edit_mode==True):
                 krs.getProdiByNim(nim)
-                krs.nim=nim
                 krs.ajaran=ajaran
                 krs.semester=semester
                 krs.matakuliah=matakuliah
@@ -148,6 +146,27 @@ class KrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         except mc.Error as e:
             self.messagebox("ERROR", str(e))
+
+    # delete data for mahasiswa
+    def delete_data(self, MainWindow):
+        try:
+            krs = Krs()
+            id=self.txtIdKrs.text()
+
+            if(self.edit_mode==True):
+                a = krs.deleteByIdKrs(id)
+                if(a>0):
+                    self.messagebox("SUKSES", "Data KRS Dihapus")
+                else:
+                    self.messagebox("GAGAL", "Data KRS Gagal Dihapus")
+
+                self.clear_entry(self) # Clear Entry Form
+                self.select_data() # Reload Datagrid
+            else:
+                self.messagebox("ERROR", "Sebelum meghapus data harus ditemukan dulu")
+
+        except mc.Error as e:
+            self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
 
     def TampilData(self,result):
         self.cboMatakuliah.clear() # reset data cbo matakuliah

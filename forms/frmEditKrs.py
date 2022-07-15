@@ -25,15 +25,17 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.txtIdKrs.returnPressed.connect(self.search_data)
         self.btnClear.clicked.connect(self.clear_entry)
         self.btnShowAllData.clicked.connect(self.select_data)
-        # self.btnHapus.clicked.connect(self.delete_data)
+        self.btnHapus.clicked.connect(self.delete_data)
+        self.edit_mode=False
         self.disableButton()
 
     def select_data(self):
         try:
             krs = Krs()
+            username=userInfo[1]
 
             # Get all
-            result = krs.getAllDataByUsername(userInfo[1])
+            result = krs.getAllKrsByUser(username)
 
             self.gridKrs.setHorizontalHeaderLabels(['Id', 'Tahun Ajaran','Semester','Matakuliah','Hari','Waktu','Ruang'])
             self.gridKrs.setRowCount(0)
@@ -72,14 +74,16 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         try:
             krs = Krs()
             id=self.txtIdKrs.text()
+            username=userInfo[1]
 
             # search process
-            result = krs.getKrsById(id)
+            result = krs.getKrsByUser(id,username)
             a = krs.affected
             if(a>0):
                 self.TampilData(result)
             else:
                 self.messagebox("INFO", "Data tidak ditemukan")
+                self.edit_mode=False
                 self.disableButton()
 
         except mc.Error as e:
@@ -92,6 +96,7 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             id=self.txtIdKrs.text()
 
             # get value from ui
+            nim=userInfo[1]
             ajaran=self.txtAjaran.text()
             semester=self.cboSemester.currentText()
             matakuliah=self.cboMatakuliah.currentText()
@@ -100,7 +105,7 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             ruang=self.txtRuang.text()
 
             # set values to classes krs
-            krs.getNimAndProdiByUsername(userInfo[1]) #userInfo[1] = username
+            krs.getProdiByNim(nim)
             krs.ajaran=ajaran
             krs.semester=semester
             krs.matakuliah=matakuliah
@@ -119,6 +124,27 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except mc.Error as e:
             self.messagebox("ERROR", str(e))
 
+    # delete data for mahasiswa
+    def delete_data(self, MainWindow):
+        try:
+            krs = Krs()
+            id=self.txtIdKrs.text()
+
+            if(self.edit_mode==True):
+                a = krs.deleteByIdKrs(id)
+                if(a>0):
+                    self.messagebox("SUKSES", "Data KRS Dihapus")
+                else:
+                    self.messagebox("GAGAL", "Data KRS Gagal Dihapus")
+
+                self.clear_entry(self)
+                self.select_data()
+            else:
+                self.messagebox("ERROR", "Sebelum meghapus data harus ditemukan dulu")
+
+        except mc.Error as e:
+            self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
+
     def TampilData(self,result):
         self.cboMatakuliah.clear() # reset data cbo matakuliah
 
@@ -130,6 +156,7 @@ class EditKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.cboHari.setCurrentText(result[4])
         self.txtWaktu.setText(result[5])
         self.txtRuang.setText(result[6])
+        self.edit_mode=True
         self.enableButton()
 
     def clear_entry(self, MainWindow):

@@ -89,10 +89,9 @@ class Krs:
         self.__ruang = value
 
     # user
-    # def getUserNimAndProdi(self,username):
-    def getNimAndProdiByUsername(self,username):
+    def getProdiByNim(self,nim):
         self.conn = mydb()
-        sql="SELECT nim,prodi FROM mahasiswa WHERE nim='" + str(username) + "'"
+        sql="SELECT nim,prodi FROM mahasiswa WHERE nim='" + str(nim) + "'"
         self.result = self.conn.findOne(sql)
         if(self.result!=None):
             self.__nim = self.result[0]
@@ -100,20 +99,6 @@ class Krs:
             self.affected = self.conn.cursor.rowcount
         else:
             self.__nim = ''
-            self.__prodi = ''
-            self.affected = 0
-        self.conn.disconnect
-        return self.result
-
-    # admin
-    def getProdiByNim(self,nim):
-        self.conn = mydb()
-        sql="SELECT prodi FROM mahasiswa WHERE nim='" + str(nim) + "'"
-        self.result = self.conn.findOne(sql)
-        if(self.result!=None):
-            self.__prodi = self.result[0]
-            self.affected = self.conn.cursor.rowcount
-        else:
             self.__prodi = ''
             self.affected = 0
         self.conn.disconnect
@@ -142,9 +127,9 @@ class Krs:
         self.conn.disconnect
         return self.affected
 
-    def getKrsById(self, id):
+    def getKrsByUser(self, id, username):
         self.conn = mydb()
-        sql="SELECT k.id,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE id='" + str(id) + "' AND k.matakuliah=m.kode_matakuliah"
+        sql="SELECT k.id,k.ajaran,k.semester,(SELECT matakuliah FROM matakuliah WHERE kode_matakuliah=k.matakuliah) as matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k WHERE id='" + str(id) + "' AND k.nim='"+ str(username) +"'"
         self.result = self.conn.findOne(sql)
         if(self.result!=None):
             self.__id = self.result[0]
@@ -167,15 +152,8 @@ class Krs:
         self.conn.disconnect
         return self.result
 
-    # user
-    def getAllDataByUsername(self,username):
-        self.conn = mydb()
-        sql="SELECT k.id,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE k.matakuliah=m.kode_matakuliah AND k.nim='" +str(username)+ "'"
-        self.result = self.conn.findAll(sql)
-        return self.result
-
     # admin
-    def getAllInfoKrsById(self, id):
+    def getKrsByAdmin(self, id):
         self.conn = mydb()
         sql="SELECT k.id,k.nim,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE id='" + str(id) + "' AND k.matakuliah=m.kode_matakuliah"
         self.result = self.conn.findOne(sql)
@@ -202,8 +180,15 @@ class Krs:
         self.conn.disconnect
         return self.result
 
+    # user
+    def getAllKrsByUser(self,username):
+        self.conn = mydb()
+        sql="SELECT k.id,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE k.matakuliah=m.kode_matakuliah AND k.nim='" +str(username)+ "'"
+        self.result = self.conn.findAll(sql)
+        return self.result
+
     # admin
-    def getAllDataByNim(self,nim):
+    def getAllKrsByAdmin(self,nim):
         self.conn = mydb()
         sql="SELECT k.id,k.nim,k.ajaran,k.semester,m.matakuliah,k.hari,k.waktu,k.ruang FROM krs AS k, matakuliah AS m WHERE k.matakuliah=m.kode_matakuliah AND k.nim='" +str(nim)+ "'"
         self.result = self.conn.findAll(sql)

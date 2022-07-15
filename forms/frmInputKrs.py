@@ -28,9 +28,10 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def select_data(self):
         try:
             krs = Krs()
+            username=userInfo[1]
 
             # Get all
-            result = krs.getAllDataByUsername(userInfo[1])
+            result = krs.getAllKrsByUser(username)
 
             self.gridKrs.setHorizontalHeaderLabels(['Id', 'Tahun Ajaran','Semester','Matakuliah','Hari','Waktu','Ruang'])
             self.gridKrs.setRowCount(0)
@@ -69,6 +70,7 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         try:
             krs = Krs()
 
+            nim=userInfo[1]
             ajaran=self.txtAjaran.text()
             semester=self.cboSemester.currentText()
             matakuliah=self.cboMatakuliah.currentText()
@@ -77,7 +79,7 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             ruang=self.txtRuang.text()
 
             # set values to classes krs
-            krs.getNimAndProdiByUsername(userInfo[1]) #userInfo[1] = username
+            krs.getProdiByNim(nim)
             krs.ajaran=ajaran
             krs.semester=semester
             krs.matakuliah=matakuliah
