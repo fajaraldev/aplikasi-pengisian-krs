@@ -8,20 +8,16 @@ from GUI.RibbonTextbox import RibbonTextbox
 from GUI.RibbonWidget import *
 from panel.Panel import *
 
-class MainWindow(QMainWindow):
+class MainWindowUser(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self, None)
         self.resize(1280, 800)
-        self.setWindowTitle("Main Window")
+        self.setWindowTitle("Main Window User")
         self.setDockNestingEnabled(True)
         self.setWindowIcon(get_icon("icon"))
         child_panels(self)
 
-        # -------------      actions       -----------------
-        self._matakuliah_action = self.add_action("Matakuliah", "ico_matakuliah", "Data Matakuliah", True, self.on_matakuliah)
-        self._mahasiswa_action = self.add_action("Mahasiswa", "ico_mahasiswa", "Data Mahasiswa", True, self.on_mahasiswa)
-        self._prodi_action = self.add_action("Prodi", "ico_prodi", "Data Prodi", True, self.on_prodi)
-        self._krs_action = self.add_action("KRS", "ico_krs", "KRS", True, self.on_krs)
+        # actions
         self._input_krs_action = self.add_action("Input KRS", "ico_krs", "Input KRS", True, self.on_input_krs)
         self._edit_krs_action = self.add_action("Edit KRS", "ico_krs", "Edit KRS", True, self.on_edit_krs)
 
@@ -51,14 +47,10 @@ class MainWindow(QMainWindow):
         home_tab = self._ribbon.add_ribbon_tab("Home")
 
         file_pane = home_tab.add_ribbon_pane("File")
-        file_pane.add_ribbon_widget(RibbonButton(self, self._mahasiswa_action, True))
-        file_pane.add_ribbon_widget(RibbonButton(self, self._matakuliah_action, True))
-        file_pane.add_ribbon_widget(RibbonButton(self, self._prodi_action, True))
         file_pane.add_ribbon_widget(RibbonButton(self, self._input_krs_action, True))
 
         edit_panel = home_tab.add_ribbon_pane("Edit")
         edit_panel.add_ribbon_widget(RibbonButton(self, self._edit_krs_action, True))
-        edit_panel.add_ribbon_widget(RibbonButton(self, self._krs_action, True))
 
         view_panel = home_tab.add_ribbon_pane("View")
         view_panel.add_ribbon_widget(RibbonButton(self, self._zoom_action, True))
@@ -76,8 +68,7 @@ class MainWindow(QMainWindow):
         etc_panel = settings_tab.add_ribbon_pane("Etc")
         etc_panel.add_ribbon_widget(RibbonButton(self, self._exit_action, True))
 
-       # -------------      Ribbon Button Functions      -----------------
-
+    # Ribbon Button Functions
     def closeEvent(self, close_event):
         pass
 
@@ -86,18 +77,6 @@ class MainWindow(QMainWindow):
 
     def on_profile(self):
         profile_on(self)
-
-    def on_matakuliah(self):
-        matakuliah_on(self)
-
-    def on_mahasiswa(self):
-        mahasiswa_on(self)
-
-    def on_prodi(self):
-        prodi_on(self)
-
-    def on_krs(self):
-        krs_on(self)
 
     def on_input_krs(self):
         input_krs_on(self)

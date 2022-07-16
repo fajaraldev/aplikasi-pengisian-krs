@@ -2,7 +2,8 @@ import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QMessageBox
 from GUI.Icons import get_icon
-from forms.MainWindow import MainWindow
+from forms.MainWindowAdmin import MainWindowAdmin
+from forms.MainWindowUser import MainWindowUser
 from classes.Users import Users as Login
 from classes.Users import userInfo
 
@@ -26,7 +27,10 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if(userInfo[0]==True): # Login berhasil
             self.close()
-            dashboard.show()
+            if(userInfo[2]=='admin'):
+              dashboard_admin.show()
+            else:
+              dashboard_user.show()
             self.messagebox("Info","Login Berhasil")
         else: # login gagal
             self.messagebox("Info","Maaf login gagal")
@@ -42,11 +46,13 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     usr = Login()
     window = LoginWindow()
-    dashboard = MainWindow()
+    dashboard_admin = MainWindowAdmin()
+    dashboard_user = MainWindowUser()
     window.show()
     sys.exit(app.exec_())
 else:
     app = QtWidgets.QApplication(sys.argv)
     usr = Login()
     window = LoginWindow()
-    dashboard = MainWindow()
+    dashboard_admin = MainWindowAdmin()
+    dashboard_user = MainWindowUser()
