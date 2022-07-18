@@ -4,7 +4,6 @@ __author__ = 'umc'
 
 icons_instance = None
 
-
 def get_icon(name):
     global icons_instance
     if not icons_instance:
@@ -28,6 +27,7 @@ class Icons(object):
         self.make_icon("profile", "icons/profile.png")
         self.make_icon("logout", "icons/logout.png")
         self.make_icon("default", "icons/folder.png")
+        self.make_icon("users", "icons/users.png")
 
         self.make_icon("ico_mahasiswa", "icons/mahasiswa.png")
         self.make_icon("ico_matakuliah", "icons/matakuliah.png")

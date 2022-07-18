@@ -6,6 +6,7 @@ from forms.frmProdi import ProdiWindow
 from forms.frmKrs import KrsWindow
 from forms.frmInputKrs import InputKrsWindow
 from forms.frmEditKrs import EditKrsWindow
+from forms.frmUsers import UsersWindow
 from forms.frmProfile import ProfileWindow
 
 dock = QtWidgets.QDockWidget()
@@ -17,6 +18,7 @@ def child_panels(self):
     krs_panel(self)
     input_krs_panel(self)
     edit_krs_panel(self)
+    users_panel(self)
     profile_panel(self)
 
 # Mahasiswa
@@ -105,6 +107,20 @@ def edit_krs_panel(self):
 def edit_krs_on(self):
     edit_krs_widget = EditKrsWindow()
     self.centralwidget = edit_krs_widget
+    dock.setWidget(self.centralwidget)
+    self.addDockWidget(Qt.LeftDockWidgetArea, dock)
+    self.centralWidget()
+
+# edit users
+def users_panel(self):
+    users_widget = UsersWindow()
+    self.centralwidget = users_widget
+    self.centralwidget.setObjectName("centralwidget")
+    self.widget = QtWidgets.QWidget(self.centralwidget)
+
+def users_on(self):
+    users_widget = UsersWindow()
+    self.centralwidget = users_widget
     dock.setWidget(self.centralwidget)
     self.addDockWidget(Qt.LeftDockWidgetArea, dock)
     self.centralWidget()

@@ -12,7 +12,7 @@ class MainWindowAdmin(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self, None)
         self.resize(1280, 800)
-        self.setWindowTitle("Main Window Admin")
+        self.setWindowTitle("Dashboard Admin")
         self.setDockNestingEnabled(True)
         self.setWindowIcon(get_icon("icon"))
         child_panels(self)
@@ -22,6 +22,7 @@ class MainWindowAdmin(QMainWindow):
         self._mahasiswa_action = self.add_action("Mahasiswa", "ico_mahasiswa", "Data Mahasiswa", True, self.on_mahasiswa)
         self._prodi_action = self.add_action("Prodi", "ico_prodi", "Data Prodi", True, self.on_prodi)
         self._krs_action = self.add_action("KRS", "ico_krs", "KRS", True, self.on_krs)
+        self._users_action = self.add_action("Users", "users", "Users", True, self.on_users)
 
         self._profile_action = self.add_action("Profile", "profile", "Profile", True, self.on_profile)
         self._logout_action = self.add_action("Logout", "logout", "Logout", True, self.on_logout)
@@ -55,6 +56,7 @@ class MainWindowAdmin(QMainWindow):
 
         edit_panel = home_tab.add_ribbon_pane("Edit")
         edit_panel.add_ribbon_widget(RibbonButton(self, self._krs_action, True))
+        edit_panel.add_ribbon_widget(RibbonButton(self, self._users_action, True))
 
         view_panel = home_tab.add_ribbon_pane("View")
         view_panel.add_ribbon_widget(RibbonButton(self, self._zoom_action, True))
@@ -93,6 +95,9 @@ class MainWindowAdmin(QMainWindow):
 
     def on_krs(self):
         krs_on(self)
+
+    def on_users(self):
+        users_on(self)
 
     def on_zoom(self):
         pass

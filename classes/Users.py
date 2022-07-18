@@ -57,6 +57,29 @@ class Users:
         for x in val:
           userInfo.append(x)
 
+    def updateByUsername(self, username):
+        self.conn = mydb()
+        val = (self.__role_name, username)
+        sql="UPDATE users SET role_id=(SELECT role_id FROM roles WHERE role_name=%s) WHERE username=%s"
+        self.affected = self.conn.update(sql, val)
+        self.conn.disconnect
+        return self.affected
+
+    def getByUsername(self, username):
+        self.conn = mydb()
+        sql="SELECT u.username,r.role_name FROM users AS u, roles AS r WHERE u.username='" + str(username) +"' AND u.role_id=r.role_id   "
+        self.result = self.conn.findOne(sql)
+        if(self.result!=None):
+            self.__username = self.result[0]
+            self.__role_name = self.result[1]
+            self.affected = self.conn.cursor.rowcount
+        else:
+            self.__username = ''
+            self.__role_name = ''
+            self.affected = 0
+        self.conn.disconnect
+        return self.result
+
     def validate(self, username, password):
         # a=str(username)
         # b=a.strip()

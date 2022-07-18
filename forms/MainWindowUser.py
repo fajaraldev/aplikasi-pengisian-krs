@@ -12,7 +12,7 @@ class MainWindowUser(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self, None)
         self.resize(1280, 800)
-        self.setWindowTitle("Main Window User")
+        self.setWindowTitle("Dashboard User")
         self.setDockNestingEnabled(True)
         self.setWindowIcon(get_icon("icon"))
         child_panels(self)
