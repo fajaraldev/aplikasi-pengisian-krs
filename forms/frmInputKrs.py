@@ -102,6 +102,7 @@ class InputKrsWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def clear_entry(self, MainWindow):
         self.txtAjaran.setText('')
         self.cboSemester.setCurrentText('')
+        self.cboMatakuliah.clear() # reset data cbo matakuliah
         self.cboMatakuliah.setCurrentText('')
         self.cboSemester.setCurrentText('')
         self.cboHari.setCurrentText('')
