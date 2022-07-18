@@ -75,8 +75,8 @@ class ProfileWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def TampilData(self,result):
         self.txtUsername.setText(result[0])
         self.txtNama.setText(result[1])
-        self.cboProdi.addItem(result[2])
-        self.cboProdi.setCurrentText(result[2])
+        # self.cboProdi.addItem(result[2])
+        # self.cboProdi.setCurrentText(result[2])
         self.cboJk.setCurrentText(result[3])
         self.txtTtl.setText(result[4])
         self.txtAlamat.setText(result[5])
@@ -88,7 +88,7 @@ class ProfileWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def clear_entry(self, MainWindow):
         self.txtUsername.setText("")
         self.txtNama.setText("")
-        self.cboProdi.clear()
+        # self.cboProdi.clear()
         self.cboJk.setCurrentText("")
         self.txtTtl.setText("")
         self.txtAlamat.setText("")
