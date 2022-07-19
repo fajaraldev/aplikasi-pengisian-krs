@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QMessageBox
 from classes.Mahasiswa import Mahasiswa
 from classes.Prodi import Prodi
+from classes.Dosen import Dosen
 from GlobalVariable import GlobalVariable
 
 qtcreator_file  = "ui/mahasiswa.ui"
@@ -18,9 +19,11 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         # Event Setup
-        self.btnCari.clicked.connect(self.search_data)
-        self.btnSimpan.clicked.connect(self.save_data)
         self.txtNim.returnPressed.connect(self.search_data)
+        self.btnCari.clicked.connect(self.search_data)
+        self.txtKodeWali.returnPressed.connect(self.search_data_wali)
+        self.btnCariWali.clicked.connect(self.search_data_wali)
+        self.btnSimpan.clicked.connect(self.save_data)
         self.btnClear.clicked.connect(self.clear_entry)
         self.btnHapus.clicked.connect(self.delete_data)
         self.edit_mode=""
@@ -31,6 +34,21 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         for x in g_var.prodi:
           self.cboProdi.addItem(x[1], x[0])
 
+
+    def search_data_wali(self):
+        try:
+            dsn = Dosen()
+            nidn = self.txtKodeWali.text()
+            dsn.getByNidn(nidn)
+            a = dsn.affected
+            if(a!=0):
+                self.txtWali.setText(dsn.nama.strip())
+            else:
+                self.messagebox("INFO", "Wali Dosen tidak ditemukan")
+
+        except Exception as e:
+            self.messagebox("ERROR", "Terjadi kesalahan koneksi data")
+
     def select_data(self):
         try:
             mhs = Mahasiswa()
@@ -38,7 +56,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             # Get all
             result = mhs.getAllData()
 
-            self.gridMahasiswa.setHorizontalHeaderLabels(['NIM', 'Nama', 'Prodi', 'JK', 'TTL', 'Alamat', 'Email', 'Telepon'])
+            self.gridMahasiswa.setHorizontalHeaderLabels(['NIM', 'Nama', 'Prodi', 'JK', 'TTL', 'Alamat', 'Email', 'Telepon', 'Kode Wali'])
             self.gridMahasiswa.setRowCount(0)
 
 
@@ -86,6 +104,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             alamat=self.txtAlamat.text()
             email=self.txtEmail.text()
             telepon=self.txtTelepon.text()
+            kode_wali=self.txtKodeWali.text()
 
             if(self.edit_mode==False):
                 mhs.nim=nim
@@ -96,6 +115,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 mhs.alamat=alamat
                 mhs.email=email
                 mhs.telepon=telepon
+                mhs.kode_wali=kode_wali
                 a = mhs.simpan()
                 if(a>0):
                     self.messagebox("SUKSES", "Data Mahasiswa Tersimpan")
@@ -112,6 +132,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 mhs.alamat=alamat
                 mhs.email=email
                 mhs.telepon=telepon
+                mhs.kode_wali=kode_wali
                 a = mhs.updateByNim(nim)
                 if(a>0):
                     self.messagebox("SUKSES", "Data Mahasiswa Diperbarui")
@@ -158,6 +179,7 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.txtAlamat.setText(result[5])
         self.txtEmail.setText(result[6])
         self.txtTelepon.setText(result[7])
+        self.txtKodeWali.setText(result[8])
 
         self.btnSimpan.setText("Update")
         self.edit_mode=True
@@ -173,6 +195,8 @@ class MahasiswaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.txtAlamat.setText("")
         self.txtEmail.setText("")
         self.txtTelepon.setText("")
+        self.txtKodeWali.setText("")
+        self.txtWali.setText("")
 
         self.btnHapus.setEnabled(False)
         self.btnHapus.setStyleSheet("color:black;background-color : grey")
