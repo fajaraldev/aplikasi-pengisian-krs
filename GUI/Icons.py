@@ -33,6 +33,7 @@ class Icons(object):
         self.make_icon("ico_matakuliah", "icons/matakuliah.png")
         self.make_icon("ico_prodi", "icons/prodi.png")
         self.make_icon("ico_krs", "icons/krs.png")
+        self.make_icon("ico_dosen", "icons/dosen.png")
 
     def make_icon(self, name, path):
         icon = QIcon()

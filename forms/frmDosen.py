@@ -9,7 +9,7 @@ qtcreator_file  = "ui/dosen.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtcreator_file)
 
 
-class DosenwaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+class DosenWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
@@ -176,10 +176,10 @@ class DosenwaWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = DosenwaWindow()
+    window = DosenWindow()
     window.show()
     window.select_data()
     sys.exit(app.exec_())
 else:
     app = QtWidgets.QApplication(sys.argv)
-    window = DosenwaWindow()
+    window = DosenWindow()
