@@ -2,8 +2,8 @@ import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QMessageBox
 from GUI.Icons import get_icon
-from forms.MainWindowAdmin import MainWindowAdmin
-from forms.MainWindowUser import MainWindowUser
+from forms.DashboardAdmin import DashboardAdmin
+from forms.DashboardUser import DashboardUser
 from classes.Users import Users as Login
 from classes.Users import userInfo
 
@@ -46,13 +46,13 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     usr = Login()
     window = LoginWindow()
-    dashboard_admin = MainWindowAdmin()
-    dashboard_user = MainWindowUser()
+    dashboard_admin = DashboardAdmin()
+    dashboard_user = DashboardUser()
     window.show()
     sys.exit(app.exec_())
 else:
     app = QtWidgets.QApplication(sys.argv)
     usr = Login()
     window = LoginWindow()
-    dashboard_admin = MainWindowAdmin()
-    dashboard_user = MainWindowUser()
+    dashboard_admin = DashboardAdmin()
+    dashboard_user = DashboardUser()
