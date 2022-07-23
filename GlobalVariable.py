@@ -41,7 +41,7 @@ class GlobalVariable:
 
   def getAllMatakuliahByProdiAndSemester(self,prodi,semester):
       self.conn = mydb()
-      sql="SELECT m.kode_matakuliah,m.matakuliah,m.sks,m.prodi,m.semester FROM matakuliah AS m WHERE m.prodi=(SELECT p.kode_prodi from prodi AS p WHERE p.prodi='" + str(prodi) + "') AND m.semester='"+ str(semester) + "'"
+      sql="SELECT kode_matakuliah FROM matakuliah WHERE prodi='" + str(prodi) + "' AND semester='"+ str(semester) + "'"
       self.result = self.conn.findAll(sql)
       if(self.result!=None):
         self.matakuliah.clear() # reset array matakuliah
