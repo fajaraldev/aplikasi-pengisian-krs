@@ -1,11 +1,11 @@
 from PyQt5.QtCore import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from forms.frmMahasiswa import MahasiswaWindow
+from forms.frmDosen import DosenWindow
 from forms.frmMatakuliah import MatakuliahWindow
 from forms.frmProdi import ProdiWindow
-from forms.frmKrs import KrsWindow
-from forms.frmInputKrs import InputKrsWindow
-from forms.frmEditKrs import EditKrsWindow
+from forms.frmKrsAdmin import KrsAdminWindow
+from forms.frmKrsUser import KrsUserWindow
 from forms.frmUsers import UsersWindow
 from forms.frmProfile import ProfileWindow
 
@@ -15,9 +15,9 @@ def child_panels(self):
     matakuliah_panel(self)
     mahasiswa_panel(self)
     prodi_panel(self)
-    krs_panel(self)
-    input_krs_panel(self)
-    edit_krs_panel(self)
+    krs_admin_panel(self)
+    krs_user_panel(self)
+    dosen_panel(self)
     users_panel(self)
     profile_panel(self)
 
@@ -33,6 +33,22 @@ def mahasiswa_on(self):
     mahasiswa_widget = MahasiswaWindow()
     mahasiswa_widget.select_data()
     self.centralwidget = mahasiswa_widget
+    dock.setWidget(self.centralwidget)
+    self.addDockWidget(Qt.LeftDockWidgetArea, dock)
+    self.centralWidget()
+
+# Dosen
+def dosen_panel(self):
+    dosen_widget = DosenWindow()
+    dosen_widget.select_data()
+    self.centralwidget = dosen_widget
+    self.centralwidget.setObjectName("centralwidget")
+    self.widget = QtWidgets.QWidget(self.centralwidget)
+
+def dosen_on(self):
+    dosen_widget = DosenWindow()
+    dosen_widget.select_data()
+    self.centralwidget = dosen_widget
     dock.setWidget(self.centralwidget)
     self.addDockWidget(Qt.LeftDockWidgetArea, dock)
     self.centralWidget()
@@ -69,44 +85,31 @@ def prodi_on(self):
     self.addDockWidget(Qt.LeftDockWidgetArea, dock)
     self.centralWidget()
 
-# krs full version (admin)
-def krs_panel(self):
-    krs_widget = KrsWindow()
-    self.centralwidget = krs_widget
+# krs admin
+def krs_admin_panel(self):
+    krs_admin_widget = KrsAdminWindow()
+    krs_admin_widget.select_data()
+    self.centralwidget = krs_admin_widget
     self.centralwidget.setObjectName("centralwidget")
     self.widget = QtWidgets.QWidget(self.centralwidget)
 
-def krs_on(self):
-    krs_widget = KrsWindow()
-    self.centralwidget = krs_widget
+def krs_admin_on(self):
+    krs_admin_widget = KrsAdminWindow()
+    krs_admin_widget.select_data()
+    self.centralwidget = krs_admin_widget
     dock.setWidget(self.centralwidget)
     self.addDockWidget(Qt.LeftDockWidgetArea, dock)
     self.centralWidget()
 
-# input krs
-def input_krs_panel(self):
-    input_krs_widget = InputKrsWindow()
-    self.centralwidget = input_krs_widget
+def krs_user_panel(self):
+    krs_user_widget = KrsUserWindow()
+    self.centralwidget = krs_user_widget
     self.centralwidget.setObjectName("centralwidget")
     self.widget = QtWidgets.QWidget(self.centralwidget)
 
-def input_krs_on(self):
-    input_krs_widget = InputKrsWindow()
-    self.centralwidget = input_krs_widget
-    dock.setWidget(self.centralwidget)
-    self.addDockWidget(Qt.LeftDockWidgetArea, dock)
-    self.centralWidget()
-
-# edit krs
-def edit_krs_panel(self):
-    edit_krs_widget = EditKrsWindow()
-    self.centralwidget = edit_krs_widget
-    self.centralwidget.setObjectName("centralwidget")
-    self.widget = QtWidgets.QWidget(self.centralwidget)
-
-def edit_krs_on(self):
-    edit_krs_widget = EditKrsWindow()
-    self.centralwidget = edit_krs_widget
+def krs_user_on(self):
+    krs_user_widget = KrsUserWindow()
+    self.centralwidget = krs_user_widget
     dock.setWidget(self.centralwidget)
     self.addDockWidget(Qt.LeftDockWidgetArea, dock)
     self.centralWidget()

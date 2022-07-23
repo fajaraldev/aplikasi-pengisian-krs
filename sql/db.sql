@@ -23,6 +23,16 @@ CREATE TABLE matakuliah (
   semester SMALLINT(1) NOT NULL
 );
 
+CREATE TABLE dosen (
+  nidn VARCHAR(10) PRIMARY KEY NOT NULL,
+  nama VARCHAR(30) NOT NULL,
+  jk CHAR(1) NOT NULL,
+  ttl VARCHAR(30),
+  alamat VARCHAR(30),
+  email VARCHAR(30),
+  telepon VARCHAR(15)
+);
+
 CREATE TABLE mahasiswa (
   nim VARCHAR(10) PRIMARY KEY NOT NULL,
   nama VARCHAR(30) NOT NULL,
@@ -31,17 +41,25 @@ CREATE TABLE mahasiswa (
   ttl VARCHAR(30),
   alamat VARCHAR(30),
   email VARCHAR(30),
-  telepon VARCHAR(15)
+  telepon VARCHAR(15),
+  kode_wali VARCHAR(10) NOT NULL REFERENCES dosen(nidn),
 );
 
 CREATE TABLE krs (
-  id INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  ajaran VARCHAR(10) NOT NULL,
-  semester SMALLINT(1) NOT NULL,
+  kode_transaksi VARCHAR(11) PRIMARY KEY NOT NULL,
+  tahun_akademik VARCHAR(10) NOT NULL,
   nim VARCHAR(10) NOT NULL REFERENCES mahasiswa(nim),
+  tanggal DATE NOT NULL,
   prodi VARCHAR(5) NOT NULL REFERENCES prodi(kode_prodi),
-  matakuliah VARCHAR(5) NOT NULL REFERENCES matakuliah(kode_matakuliah),
-  hari VARCHAR(10),
-  waktu VARCHAR(10),
-  ruang CHAR(3)
+  semester SMALLINT(1) NOT NULL,
+  mk_1 VARCHAR(5) REFERENCES matakuliah(kode_matakuliah),
+  mk_2 VARCHAR(5) REFERENCES matakuliah(kode_matakuliah),
+  mk_3 VARCHAR(5) REFERENCES matakuliah(kode_matakuliah),
+  mk_4 VARCHAR(5) REFERENCES matakuliah(kode_matakuliah),
+  mk_5 VARCHAR(5) REFERENCES matakuliah(kode_matakuliah),
+  mk_6 VARCHAR(5) REFERENCES matakuliah(kode_matakuliah),
+  mk_7 VARCHAR(5) REFERENCES matakuliah(kode_matakuliah),
+  mk_8 VARCHAR(5) REFERENCES matakuliah(kode_matakuliah),
+  mk_9 VARCHAR(5) REFERENCES matakuliah(kode_matakuliah),
+  total_sks SMALLINT(2) NOT NULL
 );
