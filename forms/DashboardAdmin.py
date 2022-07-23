@@ -8,18 +8,22 @@ from GUI.RibbonTextbox import RibbonTextbox
 from GUI.RibbonWidget import *
 from panel.Panel import *
 
-class MainWindowUser(QMainWindow):
+class DashboardAdmin(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self, None)
         self.resize(1280, 800)
-        self.setWindowTitle("Dashboard User")
+        self.setWindowTitle("Main Window")
         self.setDockNestingEnabled(True)
         self.setWindowIcon(get_icon("icon"))
         child_panels(self)
 
         # actions
-        self._input_krs_action = self.add_action("Input KRS", "ico_krs", "Input KRS", True, self.on_input_krs)
-        self._edit_krs_action = self.add_action("Edit KRS", "ico_krs", "Edit KRS", True, self.on_edit_krs)
+        self._matakuliah_action = self.add_action("Matakuliah", "ico_matakuliah", "Data Matakuliah", True, self.on_matakuliah)
+        self._mahasiswa_action = self.add_action("Mahasiswa", "ico_mahasiswa", "Data Mahasiswa", True, self.on_mahasiswa)
+        self._dosen_action = self.add_action("Dosen", "ico_dosen", "Data Dosen", True, self.on_dosen)
+        self._prodi_action = self.add_action("Prodi", "ico_prodi", "Data Prodi", True, self.on_prodi)
+        self._krs_action = self.add_action("KRS", "ico_krs", "KRS", True, self.on_krs)
+        self._users_action = self.add_action("Users", "users", "Users", True, self.on_users)
 
         self._profile_action = self.add_action("Profile", "profile", "Profile", True, self.on_profile)
         self._logout_action = self.add_action("Logout", "logout", "Logout", True, self.on_logout)
@@ -47,10 +51,14 @@ class MainWindowUser(QMainWindow):
         home_tab = self._ribbon.add_ribbon_tab("Home")
 
         file_pane = home_tab.add_ribbon_pane("File")
-        file_pane.add_ribbon_widget(RibbonButton(self, self._input_krs_action, True))
+        file_pane.add_ribbon_widget(RibbonButton(self, self._mahasiswa_action, True))
+        file_pane.add_ribbon_widget(RibbonButton(self, self._dosen_action, True))
+        file_pane.add_ribbon_widget(RibbonButton(self, self._matakuliah_action, True))
+        file_pane.add_ribbon_widget(RibbonButton(self, self._prodi_action, True))
 
         edit_panel = home_tab.add_ribbon_pane("Edit")
-        edit_panel.add_ribbon_widget(RibbonButton(self, self._edit_krs_action, True))
+        edit_panel.add_ribbon_widget(RibbonButton(self, self._krs_action, True))
+        # edit_panel.add_ribbon_widget(RibbonButton(self, self._users_action, True))
 
         view_panel = home_tab.add_ribbon_pane("View")
         view_panel.add_ribbon_widget(RibbonButton(self, self._zoom_action, True))
@@ -78,11 +86,23 @@ class MainWindowUser(QMainWindow):
     def on_profile(self):
         profile_on(self)
 
-    def on_input_krs(self):
-        input_krs_on(self)
+    def on_matakuliah(self):
+        matakuliah_on(self)
 
-    def on_edit_krs(self):
-        edit_krs_on(self)
+    def on_mahasiswa(self):
+        mahasiswa_on(self)
+
+    def on_dosen(self):
+        dosen_on(self)
+
+    def on_prodi(self):
+        prodi_on(self)
+
+    def on_krs(self):
+        krs_admin_on(self)
+
+    def on_users(self):
+        users_on(self)
 
     def on_zoom(self):
         pass
