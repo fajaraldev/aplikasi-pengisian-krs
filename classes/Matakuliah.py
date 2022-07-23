@@ -96,6 +96,21 @@ class Matakuliah:
         self.conn.disconnect
         return self.result
 
+    def getMatakuliahAndSksByKodeMatakuliah(self, kode_matakuliah):
+        self.conn = mydb()
+        sql="SELECT matakuliah,sks FROM matakuliah WHERE kode_matakuliah='" + str(kode_matakuliah) + "'"
+        self.result = self.conn.findOne(sql)
+        if(self.result!=None):
+            self.__matakuliah = self.result[0]
+            self.__sks = self.result[1]
+            self.affected = self.conn.cursor.rowcount
+        else:
+            self.__matakuliah = ''
+            self.__sks = ''
+            self.affected = 0
+        self.conn.disconnect
+        return self.result
+
     def getAllData(self):
         self.conn = mydb()
         sql="SELECT m.kode_matakuliah, m.matakuliah, m.sks, p.prodi, m.semester FROM matakuliah AS m, prodi AS p WHERE m.prodi=p.kode_prodi ORDER BY m.semester ASC"
